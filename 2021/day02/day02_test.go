@@ -2,7 +2,6 @@ package day02
 
 import (
 	_ "embed"
-	"fmt"
 	"testing"
 )
 
@@ -30,7 +29,6 @@ func TestStar2(t *testing.T) {
 	if err != nil {
 		t.FailNow()
 	}
-	fmt.Println(res)
 	if res != "2138382217" {
 		t.FailNow()
 	}

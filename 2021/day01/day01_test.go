@@ -2,7 +2,6 @@ package day01
 
 import (
 	_ "embed"
-	"fmt"
 	"testing"
 )
 
@@ -27,7 +26,6 @@ func BenchmarkStar1(b *testing.B) {
 
 func TestStar2(t *testing.T) {
 	res, err := HeightIncreaseThree(input)
-	fmt.Println(res)
 	if err != nil {
 		t.FailNow()
 	}
