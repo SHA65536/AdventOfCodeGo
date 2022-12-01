@@ -2,60 +2,62 @@ package day01
 
 import (
 	"strconv"
-	"strings"
 )
 
 // https://adventofcode.com/2022/day/1
 
 func MaxCalories(calories string) (string, error) {
-	var max, cur int
-	lines := strings.Split(calories, "\n")
-	// Looping over foods
-	for i := range lines {
-		// Empty line represents end of elf
-		if len(lines[i]) == 0 {
-			if cur > max { // Check if the current elf is the highest
-				max = cur
-			}
-			cur = 0
+	var curTotal, curLine int
+	var prev byte
+	var max int
+	// Looping over characters
+	for i := range calories {
+		if calories[i] >= '0' && calories[i] <= '9' {
+			// If it's a digit, add to current line
+			curLine = 10*curLine + int(calories[i]-'0')
+		} else if prev != '\n' {
+			// If it's one linebreak, add current line to elf total
+			curTotal += curLine
+			curLine = 0
 		} else {
-			num, err := strconv.Atoi(lines[i])
-			if err != nil {
-				return "", err
+			// If it's double line break, end current elf and check for top
+			if curTotal > max {
+				max = curTotal
 			}
-			// Adding current line to elf total
-			cur += num
+			curTotal = 0
 		}
+		prev = calories[i]
 	}
-	// Last elf is out of the loop
-	if cur > max {
-		max = cur
+	curTotal += curLine
+	if curTotal > max {
+		max = curTotal
 	}
 	return strconv.Itoa(max), nil
 }
 
 func MaxCaloriesThree(calories string) (string, error) {
-	var cur int
+	var curTotal, curLine int
+	var prev byte
 	var maxes [3]int
-	lines := strings.Split(calories, "\n")
-	// Looping over foods
-	for i := range lines {
-		// Empty line represents end of elf
-		if len(lines[i]) == 0 {
-			// Check if current elf is among the top 3
-			UpdateMaxThree(&maxes, cur)
-			cur = 0
+	// Looping over characters
+	for i := range calories {
+		if calories[i] >= '0' && calories[i] <= '9' {
+			// If it's a digit, add to current line
+			curLine = 10*curLine + int(calories[i]-'0')
+		} else if prev != '\n' {
+			// If it's one linebreak, add current line to elf total
+			curTotal += curLine
+			curLine = 0
 		} else {
-			num, err := strconv.Atoi(lines[i])
-			if err != nil {
-				return "", err
-			}
-			// Adding current line to elf total
-			cur += num
+			// If it's double line break, end current elf and check for top
+			UpdateMaxThree(&maxes, curTotal)
+			curTotal = 0
 		}
+		prev = calories[i]
 	}
-	// Last elf is out of the loop
-	UpdateMaxThree(&maxes, cur)
+	// Last elf isn't inside the loop
+	curTotal += curLine
+	UpdateMaxThree(&maxes, curTotal)
 	return strconv.Itoa(maxes[0] + maxes[1] + maxes[2]), nil
 }
 
