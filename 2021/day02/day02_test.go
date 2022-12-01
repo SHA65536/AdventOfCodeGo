@@ -31,7 +31,7 @@ func TestStar2(t *testing.T) {
 		t.FailNow()
 	}
 	fmt.Println(res)
-	if res != "2120749" {
+	if res != "2138382217" {
 		t.FailNow()
 	}
 }
