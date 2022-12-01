@@ -47,11 +47,13 @@ func GammaEpsilon(report string) (string, error) {
 func Oxygen(report string) (string, error) {
 	var lines []string = strings.Split(report, "\n")
 	var zeroes, ones []string
+	zeroes = make([]string, 0, len(lines))
+	ones = make([]string, 0, len(lines))
 	var cur = lines
 	// Running until left with one number
 	for bit := 0; len(cur) > 1; bit++ {
-		zeroes = make([]string, 0, len(cur))
-		ones = make([]string, 0, len(cur))
+		zeroes = zeroes[:0]
+		ones = ones[:0]
 		for i := range cur {
 			// Dividing the numbers into numbers with 0 in the current bit
 			// and numbers with 1 in the current bit
@@ -67,7 +69,6 @@ func Oxygen(report string) (string, error) {
 		} else {
 			cur = ones
 		}
-		bit++
 	}
 	// Converting to decimal
 	oxygen, err := strconv.ParseInt(cur[0], 2, 64)
@@ -95,7 +96,6 @@ func Oxygen(report string) (string, error) {
 		} else {
 			cur = ones
 		}
-		bit++
 	}
 	// Converting to decimal
 	co2, err := strconv.ParseInt(cur[0], 2, 64)
