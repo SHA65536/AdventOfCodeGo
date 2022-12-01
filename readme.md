@@ -7,3 +7,8 @@ Each year is in it's own directory with every problem in a separate directory.
 | Number | Solution |
 | :----- | :------- |
 | [Day 01](https://adventofcode.com/2022/day/1) | [Solution](./2022/day01/day01.go) |
+
+## Year 2021
+| Number | Solution |
+| :----- | :------- |
+| [Day 01](https://adventofcode.com/2021/day/1) | [Solution](./2021/day01/day01.go) |
