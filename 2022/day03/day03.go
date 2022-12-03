@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// https://adventofcode.com/2022/day/6
+// https://adventofcode.com/2022/day/3
 
 func CommonItem(items string) (string, error) {
 	var res int
