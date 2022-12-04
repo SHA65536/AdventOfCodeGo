@@ -25,7 +25,7 @@ func BenchmarkStar1(b *testing.B) {
 
 func TestStar2(t *testing.T) {
 	res, err := BasinMap(input)
-	if err != nil || res != "600" {
+	if err != nil || res != "987840" {
 		fmt.Println(res)
 		t.FailNow()
 	}
