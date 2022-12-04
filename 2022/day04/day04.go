@@ -25,7 +25,7 @@ func CleaningContained(regions string) (string, error) {
 			e2 = e2*10 + int(regions[i]-'0')
 		}
 		// Checking if all is contained
-		if s1 <= s2 && e2 <= e1 || s2 <= s1 && e1 <= e2 {
+		if (s1 <= s2) == (e1 >= e2) {
 			res++
 		}
 	}
