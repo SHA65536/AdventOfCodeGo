@@ -2,6 +2,7 @@ package day06
 
 import (
 	_ "embed"
+	"fmt"
 	"testing"
 )
 
@@ -11,6 +12,7 @@ var input string
 func TestStar1(t *testing.T) {
 	res, err := CommonItem(input)
 	if err != nil || res != "7763" {
+		fmt.Println(res)
 		t.FailNow()
 	}
 }

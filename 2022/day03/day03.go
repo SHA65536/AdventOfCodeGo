@@ -11,19 +11,17 @@ func CommonItem(items string) (string, error) {
 	var res int
 	// Looping over lines
 	for _, line := range strings.Split(items, "\n") {
-		var h1, h2 = map[byte]bool{}, map[byte]bool{}
+		var h1, h2 uint64
 		// Getting unique letters from first half
 		for i := 0; i < len(line)/2; i++ {
-			h1[line[i]] = true
+			h1 |= 1 << (LetScore(line[i]) - 1)
 		}
 		// Getting unique letters from second half
 		for i := len(line) / 2; i < len(line); i++ {
-			h2[line[i]] = true
+			h2 |= 1 << (LetScore(line[i]) - 1)
 		}
-		// Summing the score of intersection
-		for num := range Intersect(h1, h2) {
-			res += LetScore(num)
-		}
+		// Getting score of intersection
+		res += ScoreLet(h1 & h2)
 	}
 	return strconv.Itoa(res), nil
 }
@@ -32,25 +30,23 @@ func CommonThree(items string) (string, error) {
 	var res int
 	// Looping over input
 	for i := 0; i < len(items); i++ {
-		var h1, h2, h3 map[byte]bool
+		var h1, h2, h3 uint64
 		// Getting unique letters of first line
-		for h1 = map[byte]bool{}; items[i] != '\n'; i++ {
-			h1[items[i]] = true
+		for ; items[i] != '\n'; i++ {
+			h1 |= 1 << (LetScore(items[i]) - 1)
 		}
 		i++
 		// Getting unique letters of second line
-		for h2 = map[byte]bool{}; items[i] != '\n'; i++ {
-			h2[items[i]] = true
+		for ; items[i] != '\n'; i++ {
+			h2 |= 1 << (LetScore(items[i]) - 1)
 		}
 		i++
 		// Getting unique letters of third line
-		for h3 = map[byte]bool{}; i < len(items) && items[i] != '\n'; i++ {
-			h3[items[i]] = true
+		for ; i < len(items) && items[i] != '\n'; i++ {
+			h3 |= 1 << (LetScore(items[i]) - 1)
 		}
 		// Summing score of intersection of all three
-		for num := range Intersect(Intersect(h1, h2), h3) {
-			res += LetScore(num)
-		}
+		res += ScoreLet(h1 & h2 & h3)
 	}
 	return strconv.Itoa(res), nil
 }
@@ -64,13 +60,12 @@ func LetScore(b byte) int {
 	}
 }
 
-// Returns common items between two maps
-func Intersect(m1, m2 map[byte]bool) map[byte]bool {
-	var res = map[byte]bool{}
-	for k := range m1 {
-		if m2[k] {
-			res[k] = true
-		}
+// Get letter score from uint64
+func ScoreLet(num uint64) int {
+	var score int = 1
+	for num&1 != 1 {
+		num >>= 1
+		score++
 	}
-	return res
+	return score
 }
