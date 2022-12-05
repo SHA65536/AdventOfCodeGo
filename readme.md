@@ -26,3 +26,4 @@ Each year is in it's own directory with every problem in a separate directory.
 | [Day 09](https://adventofcode.com/2021/day/9) | [Solution](./2021/day09/day09.go) |
 | [Day 10](https://adventofcode.com/2021/day/10) | [Solution](./2021/day10/day10.go) |
 | [Day 11](https://adventofcode.com/2021/day/11) | [Solution](./2021/day11/day11.go) |
+| [Day 12](https://adventofcode.com/2021/day/12) | [Solution](./2021/day12/day12.go) |
