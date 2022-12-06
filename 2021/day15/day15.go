@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// https://adventofcode.com/2022/day/n
+// https://adventofcode.com/2021/day/15
 
 var dirs = [][2]int{
 	{0, 1}, {1, 0}, {0, -1}, {-1, 0},
