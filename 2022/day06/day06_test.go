@@ -25,7 +25,7 @@ func BenchmarkStar1(b *testing.B) {
 
 func TestStar2(t *testing.T) {
 	res, err := StartOfPacket(input, 14)
-	if err != nil || res != "1093" {
+	if err != nil || res != "3534" {
 		fmt.Println(res)
 		t.FailNow()
 	}
