@@ -11,7 +11,7 @@ var input string
 
 func TestStar1(t *testing.T) {
 	res, err := ParseTerminal(input)
-	if err != nil || res != "95437" {
+	if err != nil || res != "1141028" {
 		fmt.Println(res)
 		t.FailNow()
 	}
@@ -25,7 +25,7 @@ func BenchmarkStar1(b *testing.B) {
 
 func TestStar2(t *testing.T) {
 	res, err := FindDelete(input)
-	if err != nil || res != "24933642" {
+	if err != nil || res != "8278005" {
 		fmt.Println(res)
 		t.FailNow()
 	}
