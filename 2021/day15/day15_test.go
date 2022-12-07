@@ -11,7 +11,7 @@ var input string
 
 func TestStar1(t *testing.T) {
 	res, err := LowestPath(input, 1)
-	if err != nil || res != "" {
+	if err != nil || res != "581" {
 		fmt.Println(res)
 		t.FailNow()
 	}
@@ -25,7 +25,7 @@ func BenchmarkStar1(b *testing.B) {
 
 func TestStar2(t *testing.T) {
 	res, err := LowestPath(input, 5)
-	if err != nil || res != "" {
+	if err != nil || res != "2916" {
 		fmt.Println(res)
 		t.FailNow()
 	}
