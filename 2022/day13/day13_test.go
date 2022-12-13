@@ -11,7 +11,7 @@ var input string
 
 func TestStar1(t *testing.T) {
 	res, err := InRightOrder(input)
-	if err != nil || res != "" {
+	if err != nil || res != "5580" {
 		fmt.Println(res)
 		t.FailNow()
 	}
@@ -25,7 +25,7 @@ func BenchmarkStar1(b *testing.B) {
 
 func TestStar2(t *testing.T) {
 	res, err := SortPackets(input)
-	if err != nil || res != "" {
+	if err != nil || res != "26200" {
 		fmt.Println(res)
 		t.FailNow()
 	}
