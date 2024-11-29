@@ -75,7 +75,7 @@ func TestStar2(t *testing.T) {
 		log.Println(err)
 		t.FailNow()
 	}
-	if res != "2265" {
+	if res != "64097" {
 		log.Println(res)
 		t.FailNow()
 	}
