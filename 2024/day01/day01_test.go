@@ -91,3 +91,44 @@ func BenchmarkStar2(b *testing.B) {
 		Star2(input)
 	}
 }
+
+func TestStar1Heap(t *testing.T) {
+	input, err := helper.NewInputReaderEmbed(embed_fs, "small_input.txt")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+
+	res, err := Star1Heap(input)
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+	if res != "11" {
+		log.Println(res)
+		t.FailNow()
+	}
+
+	input, err = helper.NewInputReaderEmbed(embed_fs, "input.txt")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+
+	res, err = Star1Heap(input)
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+	if res != "3574690" {
+		log.Println(res)
+		t.FailNow()
+	}
+}
+
+func BenchmarkStar1Heap(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		input, _ := helper.NewInputReaderEmbed(embed_fs, "input.txt")
+		Star1Heap(input)
+	}
+}
