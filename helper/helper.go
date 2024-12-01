@@ -85,7 +85,7 @@ func (ir *InputReader) IterateLines(yield func(string) bool) {
 		if err != nil && err != io.EOF {
 			return
 		}
-		if !yield(line) {
+		if !yield(strings.TrimRight(line, "\n")) {
 			return
 		}
 		if err == io.EOF {
