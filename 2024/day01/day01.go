@@ -11,7 +11,7 @@ import (
 func Star1(input *helper.InputReader) (string, error) {
 	var res int
 
-	var left, right []int
+	var left, right = make([]int, 0, 1000), make([]int, 0, 1000)
 
 	for line := range input.IterateLines {
 		nums := strings.Split(line, "   ")
@@ -52,8 +52,8 @@ func Star1Heap(input *helper.InputReader) (string, error) {
 func Star2(input *helper.InputReader) (string, error) {
 	var res int
 
-	var left []int
-	var right = map[int]int{}
+	var left = make([]int, 0, 1000)
+	var right = make(map[int]int, 1000)
 
 	for line := range input.IterateLines {
 		nums := strings.Split(line, "   ")
