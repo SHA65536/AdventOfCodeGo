@@ -2,6 +2,7 @@ package helper
 
 import (
 	"bufio"
+	"embed"
 	"fmt"
 	"io"
 	"os"
@@ -26,8 +27,23 @@ func NewInputReader(filename string) (*InputReader, error) {
 	}, nil
 }
 
+func NewInputReaderEmbed(fs embed.FS, filename string) (*InputReader, error) {
+	file, err := fs.Open(filename)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open file: %v", err)
+	}
+
+	return &InputReader{
+		file:   nil,
+		reader: bufio.NewReader(file),
+	}, nil
+}
+
 func (ir *InputReader) Close() error {
-	return ir.file.Close()
+	if ir.file != nil {
+		return ir.file.Close()
+	}
+	return nil
 }
 
 func (ir *InputReader) ReadWord() (string, error) {

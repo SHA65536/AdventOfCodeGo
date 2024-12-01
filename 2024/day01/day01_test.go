@@ -2,12 +2,16 @@ package day01
 
 import (
 	"adventofcode/helper"
+	"embed"
 	"log"
 	"testing"
 )
 
+//go:embed *.txt
+var embed_fs embed.FS
+
 func TestStar1(t *testing.T) {
-	input, err := helper.NewInputReader("small_input.txt")
+	input, err := helper.NewInputReaderEmbed(embed_fs, "small_input.txt")
 	if err != nil {
 		log.Println(err)
 		t.FailNow()
@@ -23,7 +27,7 @@ func TestStar1(t *testing.T) {
 		t.FailNow()
 	}
 
-	input, err = helper.NewInputReader("input.txt")
+	input, err = helper.NewInputReaderEmbed(embed_fs, "input.txt")
 	if err != nil {
 		log.Println(err)
 		t.FailNow()
@@ -42,13 +46,13 @@ func TestStar1(t *testing.T) {
 
 func BenchmarkStar1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		input, _ := helper.NewInputReader("small_input.txt")
+		input, _ := helper.NewInputReaderEmbed(embed_fs, "input.txt")
 		Star1(input)
 	}
 }
 
 func TestStar2(t *testing.T) {
-	input, err := helper.NewInputReader("small_input.txt")
+	input, err := helper.NewInputReaderEmbed(embed_fs, "small_input.txt")
 	if err != nil {
 		log.Println(err)
 		t.FailNow()
@@ -64,7 +68,7 @@ func TestStar2(t *testing.T) {
 		t.FailNow()
 	}
 
-	input, err = helper.NewInputReader("input.txt")
+	input, err = helper.NewInputReaderEmbed(embed_fs, "input.txt")
 	if err != nil {
 		log.Println(err)
 		t.FailNow()
@@ -83,7 +87,7 @@ func TestStar2(t *testing.T) {
 
 func BenchmarkStar2(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		input, _ := helper.NewInputReader("small_input.txt")
+		input, _ := helper.NewInputReaderEmbed(embed_fs, "input.txt")
 		Star2(input)
 	}
 }
