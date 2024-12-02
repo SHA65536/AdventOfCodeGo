@@ -132,3 +132,44 @@ func BenchmarkStar1Heap(b *testing.B) {
 		Star1Heap(input)
 	}
 }
+
+func TestStar2Maps(t *testing.T) {
+	input, err := helper.NewInputReaderEmbed(embed_fs, "small_input.txt")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+
+	res, err := Star2Maps(input)
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+	if res != "31" {
+		log.Println(res)
+		t.FailNow()
+	}
+
+	input, err = helper.NewInputReaderEmbed(embed_fs, "input.txt")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+
+	res, err = Star2Maps(input)
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+	if res != "22565391" {
+		log.Println(res)
+		t.FailNow()
+	}
+}
+
+func BenchmarkStar2Maps(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		input, _ := helper.NewInputReaderEmbed(embed_fs, "input.txt")
+		Star2Maps(input)
+	}
+}

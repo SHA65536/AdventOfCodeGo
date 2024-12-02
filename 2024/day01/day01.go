@@ -69,6 +69,25 @@ func Star2(input *helper.InputReader) (string, error) {
 	return strconv.Itoa(res), nil
 }
 
+func Star2Maps(input *helper.InputReader) (string, error) {
+	var res int
+
+	var left = make(map[int]int, 1000)
+	var right = make(map[int]int, 1000)
+
+	for line := range input.IterateLines {
+		nums := strings.Split(line, "   ")
+		left[helper.MustConvNum(nums[0])]++
+		right[helper.MustConvNum(nums[1])]++
+	}
+
+	for k, v := range left {
+		res += k * v * right[k]
+	}
+
+	return strconv.Itoa(res), nil
+}
+
 func absDist(a, b int) int {
 	if a > b {
 		return a - b
