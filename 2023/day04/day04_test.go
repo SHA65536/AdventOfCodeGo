@@ -10,7 +10,7 @@ import (
 var embed_fs embed.FS
 
 func TestStar1(t *testing.T) {
-	helper.TestStar(t, Star1, embed_fs, "161", "187833789")
+	helper.TestStar(t, Star1, embed_fs, "13", "21088")
 }
 
 func BenchmarkStar1(b *testing.B) {
@@ -18,7 +18,7 @@ func BenchmarkStar1(b *testing.B) {
 }
 
 func TestStar2(t *testing.T) {
-	helper.TestStar(t, Star2, embed_fs, "48", "94455185")
+	helper.TestStar(t, Star2, embed_fs, "30", "94455185")
 }
 
 func BenchmarkStar2(b *testing.B) {
