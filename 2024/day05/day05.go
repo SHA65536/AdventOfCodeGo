@@ -3,6 +3,7 @@ package day05
 import (
 	"adventofcode/helper"
 	"fmt"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -73,7 +74,7 @@ func Star1Sort(input *helper.InputReader) (string, error) {
 			sort.Slice(nums, func(i, j int) bool {
 				return after[nums[i]][nums[j]]
 			})
-			if comapreSlice(sorted, nums) {
+			if slices.Equal(nums, sorted) {
 				res += mid
 			}
 		}
@@ -98,26 +99,16 @@ func Star2(input *helper.InputReader) (string, error) {
 			}
 		} else {
 			var nums, _ = parsePages(line)
-			if !checkOrder(nums, after) {
-				sort.Slice(nums, func(i, j int) bool {
-					return after[nums[i]][nums[j]]
-				})
-				res += nums[len(nums)/2]
+			var sorted = make([]int, len(nums))
+			copy(sorted, nums)
+			sort.Slice(sorted, func(i, j int) bool {
+				return after[sorted[i]][sorted[j]]
+			})
+			if !slices.Equal(nums, sorted) {
+				res += sorted[len(sorted)/2]
 			}
 		}
 	}
 
 	return strconv.Itoa(res), nil
-}
-
-func comapreSlice[T comparable](a, b []T) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i := range a {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-	return true
 }
