@@ -24,3 +24,11 @@ func TestStar2(t *testing.T) {
 func BenchmarkStar2(b *testing.B) {
 	helper.BenchmarkStar(b, Star2, embed_fs)
 }
+
+func TestStar2Clone(t *testing.T) {
+	helper.TestStar(t, Star2Clone, embed_fs, "6", "1957")
+}
+
+func BenchmarkStar2Clone(b *testing.B) {
+	helper.BenchmarkStar(b, Star2Clone, embed_fs)
+}

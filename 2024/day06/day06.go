@@ -69,7 +69,7 @@ func findGuard(in [][]byte) ([2]int, int) {
 	return [2]int{}, 0
 }
 
-func inside(board [][]byte, pos [2]int) bool {
+func inside[T any](board [][]T, pos [2]int) bool {
 	return pos[0] >= 0 && pos[0] < len(board) && pos[1] >= 0 && pos[1] < len(board[0])
 }
 
@@ -135,4 +135,116 @@ func FindLoop(board [][]byte, pos [2]int, dir int) bool {
 	}
 
 	return false
+}
+
+type Positon struct {
+	B byte
+	D [4]bool
+}
+
+func Star2Clone(input *helper.InputReader) (string, error) {
+	var res int
+	var board = makeBoardDirs(input)
+	var pos, dir = findGuardDirs(board)
+
+	for inside(board, pos) {
+		board[pos[0]][pos[1]].B = 'X'
+		npos := [2]int{pos[0] + dirs[dir][0], pos[1] + dirs[dir][1]}
+
+		// Attempt to place an obstacle
+		if inside(board, npos) && board[npos[0]][npos[1]].B != 'X' {
+			var copyBoard = copyBoardState(board)
+			copyBoard[npos[0]][npos[1]].B = '#'
+			if findLoopState(copyBoard, pos, dir) {
+				res++
+			}
+		}
+
+		board[pos[0]][pos[1]].D[dir] = true
+
+		for inside(board, npos) && board[npos[0]][npos[1]].B == '#' {
+			dir = (dir + 1) % 4
+			npos = [2]int{pos[0] + dirs[dir][0], pos[1] + dirs[dir][1]}
+
+			// Attempt to place an obstacle after a spin
+			if inside(board, npos) && board[npos[0]][npos[1]].B != 'X' {
+				var copyBoard = copyBoardState(board)
+
+				copyBoard[npos[0]][npos[1]].B = '#'
+
+				if findLoopState(copyBoard, pos, dir) {
+					res++
+				}
+			}
+		}
+
+		pos = npos
+	}
+
+	return strconv.Itoa(res), nil
+}
+
+func copyBoardState(board [][]Positon) [][]Positon {
+	var copyBoard = make([][]Positon, len(board))
+	for i := range board {
+		copyBoard[i] = make([]Positon, len(board[i]))
+		copy(copyBoard[i], board[i])
+	}
+	return copyBoard
+}
+
+func makeBoardDirs(input *helper.InputReader) [][]Positon {
+	var board [][]byte
+	for line := range input.IterateLines {
+		board = append(board, []byte(line))
+	}
+	var res = make([][]Positon, len(board))
+	for i := range board {
+		res[i] = make([]Positon, len(board[i]))
+		for j := range board[i] {
+			res[i][j].B = board[i][j]
+		}
+	}
+	return res
+}
+
+func findLoopState(board [][]Positon, pos [2]int, dir int) bool {
+	// Walk until you find a loop
+	for inside(board, pos) {
+		// If we were in the same position in the same direction, loop
+		if board[pos[0]][pos[1]].D[dir] {
+			return true
+		}
+		// Record current direction
+		board[pos[0]][pos[1]].D[dir] = true
+
+		npos := [2]int{pos[0] + dirs[dir][0], pos[1] + dirs[dir][1]}
+		for inside(board, npos) && board[npos[0]][npos[1]].B == '#' {
+			dir = (dir + 1) % 4
+			npos = [2]int{pos[0] + dirs[dir][0], pos[1] + dirs[dir][1]}
+		}
+
+		pos = npos
+	}
+
+	return false
+}
+
+func findGuardDirs(in [][]Positon) ([2]int, int) {
+	for i := 0; i < len(in); i++ {
+		for j := 0; j < len(in[0]); j++ {
+			switch in[i][j].B {
+			case '^':
+				return [2]int{i, j}, 0
+			case '>':
+				return [2]int{i, j}, 1
+			case 'v':
+				return [2]int{i, j}, 2
+			case '<':
+				return [2]int{i, j}, 3
+			}
+
+		}
+	}
+	return [2]int{}, 0
 }
