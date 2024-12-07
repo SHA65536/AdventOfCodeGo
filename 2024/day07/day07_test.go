@@ -40,3 +40,19 @@ func TestStar2Iter(t *testing.T) {
 func BenchmarkStar2Iter(b *testing.B) {
 	helper.BenchmarkStar(b, Star2Iter, embed_fs)
 }
+
+func TestStar1Rec(t *testing.T) {
+	helper.TestStar(t, Star1Rec, embed_fs, "3749", "1620690235709")
+}
+
+func BenchmarkStar1Rec(b *testing.B) {
+	helper.BenchmarkStar(b, Star1Rec, embed_fs)
+}
+
+func TestStar2Rec(t *testing.T) {
+	helper.TestStar(t, Star2Rec, embed_fs, "11387", "145397611075341")
+}
+
+func BenchmarkStar2Rec(b *testing.B) {
+	helper.BenchmarkStar(b, Star2Rec, embed_fs)
+}

@@ -146,3 +146,55 @@ func isPossibleIterator(res int, nums []int, ops []byte) bool {
 	}
 	return false
 }
+
+func Star1Rec(input *helper.InputReader) (string, error) {
+	var res int
+
+	for line := range input.IterateLines {
+		var nums []int
+		words := strings.Fields(line)
+		var end = helper.MustConvNum(words[0][:len(words[0])-1])
+		for _, word := range words[1:] {
+			nums = append(nums, helper.MustConvNum(word))
+		}
+
+		if isPossibleRecursive(end, nums[0], nums[1:], []byte{'*', '+'}) {
+			res += end
+		}
+	}
+
+	return strconv.Itoa(res), nil
+}
+
+func Star2Rec(input *helper.InputReader) (string, error) {
+	var res int
+
+	for line := range input.IterateLines {
+		var nums []int
+		words := strings.Fields(line)
+		var end = helper.MustConvNum(words[0][:len(words[0])-1])
+		for _, word := range words[1:] {
+			nums = append(nums, helper.MustConvNum(word))
+		}
+
+		if isPossibleRecursive(end, nums[0], nums[1:], []byte{'|', '*', '+'}) {
+			res += end
+		}
+	}
+
+	return strconv.Itoa(res), nil
+}
+
+func isPossibleRecursive(end, acc int, nums []int, ops []byte) bool {
+	if len(nums) == 0 {
+		return acc == end
+	}
+
+	for _, op := range ops {
+		var temp = Op(acc, nums[0], op)
+		if isPossibleRecursive(end, temp, nums[1:], ops) {
+			return true
+		}
+	}
+	return false
+}
