@@ -190,6 +190,10 @@ func isPossibleRecursive(end, acc int, nums []int, ops []byte) bool {
 		return acc == end
 	}
 
+	if acc > end {
+		return false
+	}
+
 	for _, op := range ops {
 		var temp = Op(acc, nums[0], op)
 		if isPossibleRecursive(end, temp, nums[1:], ops) {
