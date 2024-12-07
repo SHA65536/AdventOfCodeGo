@@ -94,7 +94,7 @@ func Star2(input *helper.InputReader) (string, error) {
 
 func concat(a, b int) int {
 	var big = 1
-	for b > big {
+	for b >= big {
 		big *= 10
 	}
 	return (a * big) + b
