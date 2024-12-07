@@ -73,8 +73,16 @@ func Op(a, b int, op byte) int {
 	return 0
 }
 
+func concat(a, b int) int {
+	var big = 1
+	for b >= big {
+		big *= 10
+	}
+	return (a * big) + b
+}
+
 func Star2(input *helper.InputReader) (string, error) {
-	var res uint64
+	var res int
 
 	for line := range input.IterateLines {
 		var nums []int
@@ -85,17 +93,56 @@ func Star2(input *helper.InputReader) (string, error) {
 		}
 
 		if isPossible(end, nums, []byte{'|', '*', '+'}) {
-			res += uint64(end)
+			res += end
 		}
 	}
 
-	return strconv.FormatUint(res, 10), nil
+	return strconv.Itoa(res), nil
 }
 
-func concat(a, b int) int {
-	var big = 1
-	for b >= big {
-		big *= 10
+func Star1Iter(input *helper.InputReader) (string, error) {
+	var res int
+
+	for line := range input.IterateLines {
+		var nums []int
+		words := strings.Fields(line)
+		var end = helper.MustConvNum(words[0][:len(words[0])-1])
+		for _, word := range words[1:] {
+			nums = append(nums, helper.MustConvNum(word))
+		}
+
+		if isPossibleIterator(end, nums, []byte{'*', '+'}) {
+			res += end
+		}
 	}
-	return (a * big) + b
+
+	return strconv.Itoa(res), nil
+}
+
+func Star2Iter(input *helper.InputReader) (string, error) {
+	var res int
+
+	for line := range input.IterateLines {
+		var nums []int
+		words := strings.Fields(line)
+		var end = helper.MustConvNum(words[0][:len(words[0])-1])
+		for _, word := range words[1:] {
+			nums = append(nums, helper.MustConvNum(word))
+		}
+
+		if isPossibleIterator(end, nums, []byte{'|', '*', '+'}) {
+			res += end
+		}
+	}
+
+	return strconv.Itoa(res), nil
+}
+
+func isPossibleIterator(res int, nums []int, ops []byte) bool {
+	for comb := range helper.IteratePermutations(ops, len(nums)-1) {
+		if res == Calc(nums, comb, res) {
+			return true
+		}
+	}
+	return false
 }
