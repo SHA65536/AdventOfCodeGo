@@ -144,7 +144,6 @@ func translateRange(seed [2]int, cRange []ConvRange) [][2]int {
 			res = append(res, [2]int{seed[0] + diff, cRange[i].Dst + cRange[i].Size - 1})
 			// next iteration do the part that doesn't fit
 			seed = [2]int{cRange[i].Src + cRange[i].Size, seed[1]}
-			i--
 			continue
 		}
 	}
