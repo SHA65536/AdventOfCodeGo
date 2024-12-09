@@ -84,8 +84,12 @@ func Star2(input *helper.InputReader) (string, error) {
 	for i := len(fs) - 1; i >= 0; i-- {
 		for j := 0; j < i; j++ {
 			var rNum, lSpace = fs[i], fs[j]
-			if !rNum.isSpace() && lSpace.isSpace() && rNum.Size <= lSpace.Size {
-				fs[i], fs[j] = File{-1, rNum.Size}, File{-1, lSpace.Size - rNum.Size}
+			if rNum.isSpace() || !lSpace.isSpace() {
+				continue
+			}
+			if rNum.Size <= lSpace.Size {
+				fs[i] = File{-1, rNum.Size}
+				fs[j] = File{-1, lSpace.Size - rNum.Size}
 				fs = slices.Insert(fs, j, File{rNum.Id, rNum.Size})
 			}
 		}
@@ -93,10 +97,12 @@ func Star2(input *helper.InputReader) (string, error) {
 
 	var pos int
 	for _, f := range fs {
+		if f.isSpace() {
+			pos += f.Size
+			continue
+		}
 		for t := f.Size; t > 0; t-- {
-			if !f.isSpace() {
-				res += (pos * f.Id)
-			}
+			res += (pos * f.Id)
 			pos++
 		}
 	}
