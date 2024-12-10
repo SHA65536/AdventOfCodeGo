@@ -24,39 +24,32 @@ func makeBoard(input *helper.InputReader) [][]byte {
 
 func getTrailHeads(board [][]byte) int {
 	var res int
-	var visited = make([][]bool, len(board))
-	for i := range visited {
-		visited[i] = make([]bool, len(board[i]))
-	}
+	var visited [][]int
 
 	var traverseHike func(i, j int)
 	traverseHike = func(i, j int) {
-		visited[i][j] = true
 		if board[i][j] == '9' {
+			visited[i][j] = 1
 			res++
 			return
 		}
 
-		if inside(board, i, j+1) && !visited[i][j+1] && board[i][j+1] == board[i][j]+1 {
-			traverseHike(i, j+1)
-		}
-		if inside(board, i+1, j) && !visited[i+1][j] && board[i+1][j] == board[i][j]+1 {
-			traverseHike(i+1, j)
-		}
-		if inside(board, i, j-1) && !visited[i][j-1] && board[i][j-1] == board[i][j]+1 {
-			traverseHike(i, j-1)
-		}
-		if inside(board, i-1, j) && !visited[i-1][j] && board[i-1][j] == board[i][j]+1 {
-			traverseHike(i-1, j)
+		for ni, nj := range helper.IterateAdjacentC(i, j) {
+			if helper.InsideC(board, ni, nj) && visited[ni][nj] == -1 && board[ni][nj] == board[i][j]+1 {
+				traverseHike(ni, nj)
+			}
 		}
 	}
 
 	for i := range board {
 		for j := range board[i] {
 			if board[i][j] == '0' {
-				visited = make([][]bool, len(board))
-				for i := range visited {
-					visited[i] = make([]bool, len(board[i]))
+				visited = make([][]int, len(board))
+				for ti := range visited {
+					visited[ti] = make([]int, len(board[ti]))
+					for tj := range visited[ti] {
+						visited[ti][tj] = -1
+					}
 				}
 				traverseHike(i, j)
 			}
@@ -65,8 +58,25 @@ func getTrailHeads(board [][]byte) int {
 	return res
 }
 
-func inside[T any](board [][]T, i, j int) bool {
-	return i >= 0 && i < len(board) && j >= 0 && j < len(board[0])
+func traverseHike(board [][]byte, visited [][]int, i, j int) int {
+	if board[i][j] == '9' {
+		visited[i][j] = 1
+		return 1
+	}
+
+	var cur int
+
+	for ni, nj := range helper.IterateAdjacentC(i, j) {
+		if !helper.InsideC(board, ni, nj) || board[ni][nj] != board[i][j]+1 {
+			continue
+		}
+		if visited[ni][nj] == -1 {
+			cur += traverseHike(board, visited, ni, nj)
+		} else {
+			cur += visited[ni][nj]
+		}
+	}
+	return cur
 }
 
 func Star2(input *helper.InputReader) (string, error) {
@@ -88,50 +98,10 @@ func getTrailHeadsRating(board [][]byte) int {
 		}
 	}
 
-	var traverseHike func(i, j int) int
-	traverseHike = func(i, j int) int {
-		if board[i][j] == '9' {
-			visited[i][j] = 1
-			return 1
-		}
-
-		var cur int
-
-		if inside(board, i, j+1) && board[i][j+1] == board[i][j]+1 {
-			if visited[i][j+1] == -1 {
-				cur += traverseHike(i, j+1)
-			} else {
-				cur += visited[i][j+1]
-			}
-		}
-		if inside(board, i+1, j) && board[i+1][j] == board[i][j]+1 {
-			if visited[i+1][j] == -1 {
-				cur += traverseHike(i+1, j)
-			} else {
-				cur += visited[i+1][j]
-			}
-		}
-		if inside(board, i, j-1) && board[i][j-1] == board[i][j]+1 {
-			if visited[i][j-1] == -1 {
-				cur += traverseHike(i, j-1)
-			} else {
-				cur += visited[i][j-1]
-			}
-		}
-		if inside(board, i-1, j) && board[i-1][j] == board[i][j]+1 {
-			if visited[i-1][j] == -1 {
-				cur += traverseHike(i-1, j)
-			} else {
-				cur += visited[i-1][j]
-			}
-		}
-		return cur
-	}
-
 	for i := range board {
 		for j := range board[i] {
 			if board[i][j] == '0' {
-				res += traverseHike(i, j)
+				res += traverseHike(board, visited, i, j)
 			}
 		}
 	}

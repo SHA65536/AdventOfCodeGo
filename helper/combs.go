@@ -7,11 +7,7 @@ func IteratePermutations[T any](src []T, size int) func(yield func([]T) bool) {
 	return func(yield func([]T) bool) {
 		generate = func(idx int) bool {
 			if idx == size {
-				if !yield(res) {
-					return false
-				}
-
-				return true
+				return yield(res)
 			}
 
 			for _, v := range src {
