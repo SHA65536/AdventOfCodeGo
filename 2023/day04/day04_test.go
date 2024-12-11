@@ -18,7 +18,7 @@ func BenchmarkStar1(b *testing.B) {
 }
 
 func TestStar2(t *testing.T) {
-	helper.TestStar(t, Star2, embed_fs, "30", "94455185")
+	helper.TestStar(t, Star2, embed_fs, "30", "6874754")
 }
 
 func BenchmarkStar2(b *testing.B) {
