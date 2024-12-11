@@ -19,9 +19,8 @@ func Star1(input *helper.InputReader) (string, error) {
 				continue
 			}
 			if left, right, ok := splitInteger(e.Value.(int)); ok {
-				e.Value = left
-				stones.InsertAfter(right, e)
-				e = e.Next()
+				e.Value = right
+				stones.InsertBefore(left, e)
 				continue
 			}
 			e.Value = e.Value.(int) * 2024
