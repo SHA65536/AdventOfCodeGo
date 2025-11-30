@@ -60,7 +60,7 @@ func (ir *InputReader) ReadLine() (string, error) {
 	if err != nil && err != io.EOF {
 		return "", err
 	}
-	return line, nil
+	return strings.TrimSuffix(line, "\n"), nil
 }
 
 func (ir *InputReader) ReadLines() ([]string, error) {

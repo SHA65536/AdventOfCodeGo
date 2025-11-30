@@ -7,6 +7,7 @@ import (
 )
 
 type Solution func(*InputReader) (string, error)
+type SolutionSpecial func(*InputReader, string) (string, error)
 
 func TestStar(t *testing.T, sol Solution, fs embed.FS, res_small, res_big string) {
 	input, err := NewInputReaderEmbed(fs, "small_input.txt")
@@ -46,5 +47,46 @@ func BenchmarkStar(b *testing.B, sol Solution, fs embed.FS) {
 	for i := 0; i < b.N; i++ {
 		input, _ := NewInputReaderEmbed(fs, "input.txt")
 		sol(input)
+	}
+}
+
+func TestStarSpecial(t *testing.T, sol SolutionSpecial, fs embed.FS, res_small, res_big string) {
+	input, err := NewInputReaderEmbed(fs, "small_input.txt")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+
+	res, err := sol(input, "small")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+	if res != res_small {
+		log.Println(res)
+		t.FailNow()
+	}
+
+	input, err = NewInputReaderEmbed(fs, "input.txt")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+
+	res, err = sol(input, "big")
+	if err != nil {
+		log.Println(err)
+		t.FailNow()
+	}
+	if res != res_big {
+		log.Println(res)
+		t.FailNow()
+	}
+}
+
+func BenchmarkStarSpecial(b *testing.B, sol SolutionSpecial, fs embed.FS) {
+	for i := 0; i < b.N; i++ {
+		input, _ := NewInputReaderEmbed(fs, "input.txt")
+		sol(input, "big")
 	}
 }
