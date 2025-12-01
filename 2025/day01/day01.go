@@ -34,7 +34,7 @@ func Star2(input *helper.InputReader) (string, error) {
 	for line := range input.IterateLines {
 		val := helper.MustConvNum(line[1:])
 
-		res += val / 100 // Full
+		res += val / 100 // Full rotations
 		val %= 100
 		if line[0] == 'L' {
 			val = -val
@@ -43,12 +43,10 @@ func Star2(input *helper.InputReader) (string, error) {
 		cur = helper.Mod(cur+val, 100)
 
 		if cur == 0 {
+			// Ends on 0
 			res++
-		} else if prev == 0 {
-
-		} else if cur >= prev && line[0] == 'L' {
-			res++
-		} else if cur <= prev && line[0] == 'R' {
+		} else if prev != 0 && (cur >= prev && line[0] == 'L' || cur <= prev && line[0] == 'R') {
+			// Goes through 0
 			res++
 		}
 		prev = cur
