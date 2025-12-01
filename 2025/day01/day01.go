@@ -10,18 +10,14 @@ func Star1(input *helper.InputReader) (string, error) {
 	var cur int = 50
 
 	for line := range input.IterateLines {
-		val := helper.MustConvNum(line[1:])
-		val %= 100
+		val := helper.MustConvNum(line[1:]) % 100
+
 		if line[0] == 'L' {
 			val = -val
 		}
-		cur += val
 
-		if cur > 99 {
-			cur -= 100
-		} else if cur < 0 {
-			cur += 100
-		}
+		cur = helper.Mod(cur+val, 100)
+
 		if cur == 0 {
 			res++
 		}
@@ -37,18 +33,15 @@ func Star2(input *helper.InputReader) (string, error) {
 
 	for line := range input.IterateLines {
 		val := helper.MustConvNum(line[1:])
-		res += val / 100
+
+		res += val / 100 // Full
 		val %= 100
 		if line[0] == 'L' {
 			val = -val
 		}
-		cur += val
 
-		if cur > 99 {
-			cur -= 100
-		} else if cur < 0 {
-			cur += 100
-		}
+		cur = helper.Mod(cur+val, 100)
+
 		if cur == 0 {
 			res++
 		} else if prev == 0 {
