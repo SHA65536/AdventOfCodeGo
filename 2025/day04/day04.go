@@ -57,3 +57,37 @@ func Star2(input *helper.InputReader) (string, error) {
 
 	return strconv.Itoa(res), nil
 }
+
+func Star2SinglePass(input *helper.InputReader) (string, error) {
+	var res int
+
+	var grid, _ = input.ReadByteLines()
+
+	var findAndRemove func(int, int)
+	findAndRemove = func(i, j int) {
+		var total int
+		if !helper.InsideC(grid, i, j) || grid[i][j] == '.' {
+			return
+		}
+		for ni, nj := range helper.IterateAroundC(i, j) {
+			if helper.InsideC(grid, ni, nj) && grid[ni][nj] == '@' {
+				total++
+			}
+		}
+		if total < 4 {
+			res++
+			grid[i][j] = '.'
+			for ni, nj := range helper.IterateAroundC(i, j) {
+				findAndRemove(ni, nj)
+			}
+		}
+	}
+
+	for i := range grid {
+		for j := range grid[0] {
+			findAndRemove(i, j)
+		}
+	}
+
+	return strconv.Itoa(res), nil
+}
