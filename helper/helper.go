@@ -78,6 +78,21 @@ func (ir *InputReader) ReadLines() ([]string, error) {
 	return lines, nil
 }
 
+func (ir *InputReader) ReadByteLines() ([][]byte, error) {
+	var byteLines [][]byte
+	for {
+		line, err := ir.reader.ReadString('\n')
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+		byteLines = append(byteLines, []byte(strings.TrimSuffix(line, "\n")))
+		if err == io.EOF {
+			break
+		}
+	}
+	return byteLines, nil
+}
+
 func (ir *InputReader) ReadNChars(n int) (string, error) {
 	buf := make([]byte, n)
 	_, err := io.ReadFull(ir.reader, buf)
