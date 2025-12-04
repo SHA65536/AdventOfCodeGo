@@ -31,7 +31,6 @@ func CountAccessible(grid [][]byte) (int, [][2]int) {
 			if total < 4 {
 				accessible = append(accessible, [2]int{i, j})
 				res++
-			} else {
 			}
 		}
 	}
