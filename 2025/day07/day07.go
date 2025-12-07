@@ -19,12 +19,8 @@ func Star1(input *helper.InputReader) (string, error) {
 			// Split
 			if grid[i][j] == '^' && helper.InsideC(grid, i-1, j) && grid[i-1][j] == '|' {
 				res++
-				if helper.InsideC(grid, i+1, j-1) {
-					grid[i+1][j-1] = '|'
-				}
-				if helper.InsideC(grid, i+1, j+1) {
-					grid[i+1][j+1] = '|'
-				}
+				grid[i+1][j-1] = '|'
+				grid[i+1][j+1] = '|'
 			}
 		}
 	}
@@ -54,18 +50,13 @@ func Star2(input *helper.InputReader) (string, error) {
 			if grid[i][j] < 1 || !helper.InsideC(grid, i+1, j) {
 				continue
 			}
-			// Propagate downward
 			if grid[i+1][j] != -1 {
+				// Propagate downward
 				grid[i+1][j] += grid[i][j]
-			}
-			// Split
-			if grid[i+1][j] == -1 {
-				if helper.InsideC(grid, i+1, j-1) {
-					grid[i+1][j-1] += grid[i][j]
-				}
-				if helper.InsideC(grid, i+1, j+1) {
-					grid[i+1][j+1] += grid[i][j]
-				}
+			} else {
+				// Split
+				grid[i+1][j-1] += grid[i][j]
+				grid[i+1][j+1] += grid[i][j]
 			}
 		}
 	}
